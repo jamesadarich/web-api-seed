@@ -1,0 +1,24 @@
+{
+  "name": "web-api-seed",
+  "version": "1.0.0",
+  "description": "seed to build a web API",
+  "main": "server/startup.js",
+  "scripts": {
+    "test": "alsatian \"./**/*.spec.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesrichford/web-api-seed.git"
+  },
+  "keywords": [
+    "web",
+    "api",
+    "seed"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamesrichford/web-api-seed/issues"
+  },
+  "homepage": "https://github.com/jamesrichford/web-api-seed#readme"
+}
