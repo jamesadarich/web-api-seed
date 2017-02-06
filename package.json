@@ -4,7 +4,10 @@
   "description": "seed to build a web API",
   "main": "server/startup.js",
   "scripts": {
-    "test": "alsatian \"./**/*.spec.js\""
+    "build": "tsc",
+    "test": "alsatian \"./**/*.spec.js\"",
+    "prestart": "npm run build",
+    "start": "node server/startup.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,15 @@
   },
   "homepage": "https://github.com/jamesrichford/web-api-seed#readme",
   "devDependencies": {
+    "@types/body-parser": "0.0.33",
+    "@types/express": "^4.0.35",
     "typescript": "^2.1.5"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "inversify": "^3.0.0",
+    "inversify-express-utils": "^3.2.0",
+    "reflect-metadata": "^0.1.9"
   }
 }
