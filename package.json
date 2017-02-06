@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/jamesrichford/web-api-seed/issues"
   },
-  "homepage": "https://github.com/jamesrichford/web-api-seed#readme"
+  "homepage": "https://github.com/jamesrichford/web-api-seed#readme",
+  "devDependencies": {
+    "typescript": "^2.1.5"
+  }
 }
