@@ -1,36 +1,43 @@
-import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
-import { injectable, inject } from 'inversify';
-import { IUser, UserManager } from '../managers/user.manager';
-import { Request } from 'express';
-import TYPES from '../constants/types';
+import { Controller, Get, Post, Put, Delete } from "inversify-express-utils";
+import { injectable, inject } from "inversify";
+import { UserManager } from "../managers/user.manager";
+import { UserModel } from "../models/user.model";
+import { Request } from "express";
+import TYPES from "../constants/types";
 
 @injectable()
-@Controller('/user')
+@Controller("/users")
 export class UserService {
 
-  constructor(@inject(TYPES.UserManager) private userService: UserManager) { }
+  constructor(@inject(TYPES.UserManager)
+              private userService: UserManager) { }
 
-  @Get('/')
-  public getUsers(): IUser[] {
+  @Get("/")
+  public getUsers(): UserModel[] {
     return this.userService.getUsers();
   }
 
-  @Get('/:id')
-  public getUser(request: Request): IUser {
+  @Get("/current")
+  public getCurrentUser(request: Request) {
+    return request.user;
+  }
+
+  @Get("/:id")
+  public getUser(request: Request): UserModel {
     return this.userService.getUser(request.params.id);
   }
 
-  @Post('/')
-  public newUser(request: Request): IUser {
+  @Post("/")
+  public newUser(request: Request): UserModel {
     return this.userService.newUser(request.body);
   }
 
-  @Put('/:id')
-  public updateUser(request: Request): IUser {
+  @Put("/:id")
+  public updateUser(request: Request): UserModel {
     return this.userService.updateUser(request.params.id, request.body);
   }
 
-  @Delete('/:id')
+  @Delete("/:id")
   public deleteUser(request: Request): string {
     return this.userService.deleteUser(request.params.id);
   }

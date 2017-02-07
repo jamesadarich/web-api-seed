@@ -1,6 +1,6 @@
 const TAGS = {
-    HomeService: 'HomeService',
-    UserService: 'UserService'
+    SessionService: "SessionService",
+    UserService: "UserService"
 };
 
 export default TAGS;

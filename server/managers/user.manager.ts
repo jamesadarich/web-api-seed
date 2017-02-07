@@ -1,30 +1,30 @@
-import { injectable } from 'inversify';
-
-export interface IUser {
-  email: string;
-  name: string;
-}
+import { injectable } from "inversify";
+import { UserModel } from "../models/user.model";
 
 @injectable()
 export class UserManager {
 
-  private userStorage: IUser[] = [{
-    email: 'lorem@ipsum.com',
-    name: 'Lorem'
-  }, {
-      email: 'doloe@sit.com',
-      name: 'Dolor'
+  private userStorage: UserModel[] =  <any>[{
+    _id: 2,
+    _username: "lorem@ipsum.com",
+    _firstName: "Lorem",
+    _lastName: "Ipsum"
+  },{
+    _id: 2,
+    _username: "dolor@sit.com",
+    _firstName: "Dolor",
+    _lastName: "Sit"
     }];
 
 
-  public getUsers(): IUser[] {
+  public getUsers(): UserModel[] {
     return this.userStorage;
   }
 
-  public getUser(id: string): IUser {
-    let result: IUser;
+  public getUser(id: number): UserModel {
+    let result: UserModel;
     this.userStorage.map(user => {
-      if (user.name === id) {
+      if (user.id === id) {
         result = user;
       }
     });
@@ -32,14 +32,14 @@ export class UserManager {
     return result;
   }
 
-  public newUser(user: IUser): IUser {
+  public newUser(user: UserModel): UserModel {
     this.userStorage.push(user);
     return user;
   }
 
-  public updateUser(id: string, user: IUser): IUser {
+  public updateUser(id: number, user: UserModel): UserModel {
     this.userStorage.map((entry, index) => {
-      if (entry.name === id) {
+      if (entry.id === id) {
         this.userStorage[index] = user;
       }
     });
@@ -47,10 +47,10 @@ export class UserManager {
     return user;
   }
 
-  public deleteUser(id: string): string {
-    let updatedUser: IUser[] = [];
+  public deleteUser(id: number): string {
+    let updatedUser: UserModel[] = [];
     this.userStorage.map(user => {
-      if (user.name !== id) {
+      if (user.id !== id) {
         updatedUser.push(user);
       }
     });

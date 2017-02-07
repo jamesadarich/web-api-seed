@@ -1,5 +1,5 @@
 const TYPES = {
-    UserManager: Symbol('UserManager')
+    UserManager: Symbol("UserManager")
 };
 
 export default TYPES;
