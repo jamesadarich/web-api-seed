@@ -2,7 +2,8 @@ import { Controller, Get, Post, Put, Delete } from "inversify-express-utils";
 import { injectable, inject } from "inversify";
 import { UserManager } from "../managers/user.manager";
 import { UserModel } from "../models/user.model";
-import { Request } from "express";
+import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
+import { IHttpRequest } from "./http";
 import TYPES from "../constants/types";
 
 @injectable()
@@ -18,27 +19,27 @@ export class UserService {
   }
 
   @Get("/current")
-  public getCurrentUser(request: Request) {
+  public getCurrentUser(request: IHttpRequest<void>) {
     return request.user;
   }
 
   @Get("/:id")
-  public getUser(request: Request): UserModel {
-    return this.userService.getUser(request.params.id);
+  public getUser(request: IHttpRequest<void>): UserModel {
+    return this.userService.getUserById(request.params.id);
   }
 
   @Post("/")
-  public newUser(request: Request): UserModel {
-    return this.userService.newUser(request.body);
+  public async createUser(request: IHttpRequest<ICreateUserDto>) {
+    return await this.userService.createUser(request.body);
   }
 
   @Put("/:id")
-  public updateUser(request: Request): UserModel {
+  public updateUser(request: IHttpRequest<UserModel>): UserModel {
     return this.userService.updateUser(request.params.id, request.body);
   }
 
   @Delete("/:id")
-  public deleteUser(request: Request): string {
+  public deleteUser(request: IHttpRequest<void>): number {
     return this.userService.deleteUser(request.params.id);
   }
 }
