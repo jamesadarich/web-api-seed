@@ -1,20 +1,28 @@
 import "reflect-metadata";
 import { InversifyExpressServer } from "inversify-express-utils";
 import * as bodyParser from "body-parser";
-import { SessionService } from "./services/session";
-import { UserService } from "./services/user.service";
-import { UserManager } from "./managers/user.manager";
+import * as cookieParser from "cookie-parser";
+import * as expressSession from "express-session";
 import { appContainer } from "./container";
+import * as passport from "passport";
 
 // start the server
-let server = new InversifyExpressServer(appContainer);
+const server = new InversifyExpressServer(appContainer);
 server.setConfig((app) => {
+  app.use(cookieParser());
   app.use(bodyParser.urlencoded({
     extended: true
   }));
   app.use(bodyParser.json());
+  app.use(expressSession({
+    secret: "SUPER SECRET SECRET",
+    resave: true,
+    saveUninitialized: true 
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 });
 
-let app = server.build();
+const app = server.build();
 app.listen(3000);
 console.log("Server started on port 3000 :)");

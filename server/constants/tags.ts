@@ -1,5 +1,5 @@
 const TAGS = {
-    SessionService: "SessionService",
+    AuthenticationService: "AuthenticationService",
     UserService: "UserService"
 };
 

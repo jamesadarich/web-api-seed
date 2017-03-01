@@ -3,31 +3,31 @@ import { UserModel } from "../models/user.model";
 import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import * as bcrypt from "bcryptjs";
 
-@injectable()
-export class UserManager {
-
-  private userStorage: UserModel[] =  <any>[{
+const userStorage: UserModel[] =  <any>[{
     _id: 1,
     _username: "lorem@ipsum.com",
     _firstName: "Lorem",
     _lastName: "Ipsum",
     _passwordHash: bcrypt.hashSync("password", bcrypt.genSaltSync())
   },{
-    _id: 2,
-    _username: "dolor@sit.com",
-    _firstName: "Dolor",
-    _lastName: "Sit",
-    _passwordHash: bcrypt.hashSync("test", bcrypt.genSaltSync())
-    }];
+  _id: 2,
+  _username: "dolor@sit.com",
+  _firstName: "Dolor",
+  _lastName: "Sit",
+  _passwordHash: bcrypt.hashSync("test", bcrypt.genSaltSync())
+  }];
+
+@injectable()
+export class UserManager {
 
 
   public getUsers(): UserModel[] {
-    return this.userStorage;
+    return userStorage;
   }
 
   public getUserById(id: number): UserModel {
     let result: UserModel;
-    this.userStorage.map(user => {
+    userStorage.map(user => {
       if (user.id === id) {
         result = user;
       }
@@ -37,7 +37,7 @@ export class UserManager {
   }
 
   public getUserByUsername(username: string): UserModel {
-      const matchingUsers = this.userStorage.filter(
+      const matchingUsers = userStorage.filter(
         user => user.username === username
       );
 
@@ -58,14 +58,14 @@ export class UserManager {
     const newUser = <UserModel>{};
     (newUser as any).username = user.username;
     (newUser as any).passwordHash = await bcrypt.hash(user.password, salt);
-    this.userStorage.push(newUser);
-    return user;
+    userStorage.push(newUser);
+    return newUser;
   }
 
   public updateUser(id: number, user: UserModel): UserModel {
-    this.userStorage.map((entry, index) => {
+    userStorage.map((entry, index) => {
       if (entry.id === id) {
-        this.userStorage[index] = user;
+        userStorage[index] = user;
       }
     });
 
@@ -74,13 +74,12 @@ export class UserManager {
 
   public deleteUser(id: number): number {
     let updatedUser: UserModel[] = [];
-    this.userStorage.map(user => {
+    userStorage.map(user => {
       if (user.id !== id) {
-        updatedUser.push(user);
+        userStorage.splice(userStorage.indexOf(user), 1);
       }
     });
-
-    this.userStorage = updatedUser;
+    
     return id;
   }
 }
