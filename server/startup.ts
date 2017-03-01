@@ -1,22 +1,13 @@
 import "reflect-metadata";
-import { interfaces, Controller, InversifyExpressServer, TYPE } from "inversify-express-utils";
-import { Container } from "inversify";
+import { InversifyExpressServer } from "inversify-express-utils";
 import * as bodyParser from "body-parser";
-import TYPES from "./constants/types";
-import TAGS from "./constants/tags";
 import { SessionService } from "./services/session";
 import { UserService } from "./services/user.service";
 import { UserManager } from "./managers/user.manager";
-
-// load everything needed to the Container
-let container = new Container();
-
-container.bind<interfaces.Controller>(TYPE.Controller).to(SessionService).whenTargetNamed(TAGS.SessionService);
-container.bind<interfaces.Controller>(TYPE.Controller).to(UserService).whenTargetNamed(TAGS.UserService);
-container.bind<UserManager>(TYPES.UserManager).to(UserManager);
+import { appContainer } from "./container";
 
 // start the server
-let server = new InversifyExpressServer(container);
+let server = new InversifyExpressServer(appContainer);
 server.setConfig((app) => {
   app.use(bodyParser.urlencoded({
     extended: true
