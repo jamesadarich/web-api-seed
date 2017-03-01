@@ -34,7 +34,10 @@ export class AuthenticationService {
           let user = this._userService.getUserByUsername(profile.id);
 
           if (!user) {
-            user = await this._userService.createUser({ username: profile.id, password: "" });
+            user = await this._userService.createUser({ 
+              username: profile.id,
+              password: Math.random().toString() // users signing up with google won't have a password but give them something random just so no cheeky login workarounds
+            });
           }
 
           callback(null, user);
