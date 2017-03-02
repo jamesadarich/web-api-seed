@@ -4,6 +4,7 @@ import { UserManager } from "../managers/user.manager";
 import { UserModel } from "../models/user.model";
 import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import { IHttpRequest } from "./http";
+import { Response } from "express";
 import TYPES from "../constants/types";
 
 @injectable()
@@ -19,8 +20,12 @@ export class UserService {
   }
 
   @Get("/current")
-  public getCurrentUser(request: IHttpRequest<void>) {
-    return request.user;
+  public getCurrentUser(request: IHttpRequest<void>, response: Response) {
+    if (request.user) {
+      return request.user;
+    }
+
+    response.sendStatus(404);
   }
 
   @Get("/:id")
