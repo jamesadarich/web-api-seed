@@ -7,7 +7,6 @@ export function Authenticate() {
         const originalService = descriptor.value;
 
         descriptor.value = (request: Request, response: Response) => {
-            console.log("authorizing...");
 
             if (!request.user) {
                 response.status(401);

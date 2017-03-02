@@ -41,8 +41,6 @@ export class UserManager {
         user => user.username === username
       );
 
-      console.log(username, matchingUsers);
-
       if (matchingUsers.length > 1) {
         throw new Error("duplicate users found");
       }
@@ -57,6 +55,8 @@ export class UserManager {
 
     const newUser = <UserModel>{};
     (newUser as any).username = user.username;
+    (newUser as any).firstName = user.firstName;
+    (newUser as any).lastName = user.lastName;
     (newUser as any).passwordHash = await bcrypt.hash(user.password, salt);
     userStorage.push(newUser);
     return newUser;
@@ -73,7 +73,6 @@ export class UserManager {
   }
 
   public deleteUser(id: number): number {
-    let updatedUser: UserModel[] = [];
     userStorage.map(user => {
       if (user.id !== id) {
         userStorage.splice(userStorage.indexOf(user), 1);
