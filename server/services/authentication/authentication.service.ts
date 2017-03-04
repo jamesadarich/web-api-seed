@@ -38,7 +38,7 @@ export class AuthenticationService {
   @Post("")
   public async create(request: Request, response: Response) {
 
-    const matchingUser = this._userManager.getUserByUsername(request.body.username);
+    const matchingUser = await this._userManager.getUserByUsername(request.body.username);
 
     if (matchingUser) {
       const passwordMatch = await bcrypt.compare(request.body.password, matchingUser.passwordHash);

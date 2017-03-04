@@ -22,7 +22,7 @@ export class AuthenticationManager {
     
     public async loginGoogle(profile: any) {
 
-        let user = this._userManager.getUserByUsername(profile.emails[0].value);
+        let user = await this._userManager.getUserByUsername(profile.emails[0].value);
 
         if (!user) {
             user = await this._userManager.createUser({ 

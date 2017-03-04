@@ -12,11 +12,11 @@ import TYPES from "../constants/types";
 export class UserService {
 
   constructor(@inject(TYPES.UserManager)
-              private userService: UserManager) { }
+              private _userManager: UserManager) { }
 
   @Get("/")
-  public getUsers(): UserModel[] {
-    return this.userService.getUsers();
+  public async getUsers() {
+    return await this._userManager.getUsers();
   }
 
   @Get("/current")
@@ -29,22 +29,22 @@ export class UserService {
   }
 
   @Get("/:id")
-  public getUser(request: IHttpRequest<void>): UserModel {
-    return this.userService.getUserById(request.params.id);
+  public async getUser(request: IHttpRequest<void>) {
+    return await this._userManager.getUserById(request.params.id);
   }
 
   @Post("/")
   public async createUser(request: IHttpRequest<ICreateUserDto>) {
-    return await this.userService.createUser(request.body);
+    return await this._userManager.createUser(request.body);
   }
 
   @Put("/:id")
-  public updateUser(request: IHttpRequest<UserModel>): UserModel {
-    return this.userService.updateUser(request.params.id, request.body);
+  public updateUser(request: IHttpRequest<UserModel>) {
+    // return this._userManager.updateUser(request.params.id, request.body);
   }
 
   @Delete("/:id")
-  public deleteUser(request: IHttpRequest<void>): number {
-    return this.userService.deleteUser(request.params.id);
+  public deleteUser(request: IHttpRequest<void>) {
+    // return this._userManager.deleteUser(request.params.id);
   }
 }
