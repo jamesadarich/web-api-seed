@@ -4,17 +4,21 @@ import { UserModel } from "../models/user.model";
 import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import * as bcrypt from "bcryptjs";
 import { UserRepository } from "../repositories/user.repository";
+import { EmailManager } from ".";
 
 @injectable()
 export class UserManager {
 
-  public constructor(@inject(TYPES.UserRepository) private _userRepository: UserRepository) {}
+  public constructor(@inject(TYPES.UserRepository) private _userRepository: UserRepository,
+                    @inject(TYPES.EmailManager) private _emailManager: EmailManager) {}
 
   public async getUsers() {
     return this._userRepository.getAllUsers();
   }
 
   public async getUserById(id: number) {
+
+    this._emailManager.sendUserRegistrationEmail();
     
     const allUsers = await this._userRepository.getAllUsers();
 

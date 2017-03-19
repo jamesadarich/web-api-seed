@@ -3,7 +3,8 @@ import { UserModel } from "../models/user.model";
 import * as path from "path";
 import { injectable } from "inversify";
 
-const config = require("../../config.json")
+const config = require("../../config.json");
+const users: Array<UserModel> = [];
 
 @injectable()
 export class UserRepository {
@@ -43,10 +44,13 @@ export class UserRepository {
     private _ormRepository: Repository<UserModel>;
 
     public async getAllUsers() {
+        return users;
+        /*
+
         while(!this._ormRepository) {
 
         }
-        return await this._ormRepository.find(UserModel);
+        return await this._ormRepository.find(UserModel);*/
     }
 
     public create(user: UserModel) {
