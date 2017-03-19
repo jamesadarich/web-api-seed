@@ -12,7 +12,7 @@
             "runtimeArgs": [
                 "start"
             ],
-            "timeout": 20000,
+            "timeout": 30000,
             "port": 5858,
             "cwd": "${workspaceRoot}"
         }
