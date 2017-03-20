@@ -4,7 +4,8 @@
   "description": "seed to build a web API",
   "main": "server/startup.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run build-emails",
+    "build-emails": "mjml ./server/emails/example.mjml --output ./server/emails/example.html",
     "test": "alsatian \"./**/*.spec.js\"",
     "prestart": "npm run build",
     "start": "node server/startup.js"
@@ -33,6 +34,7 @@
     "@types/nodemailer": "^1.3.32",
     "@types/passport": "^0.3.2",
     "@types/passport-http": "^0.3.2",
+    "mjml": "^3.3.0",
     "typescript": "^2.1.5"
   },
   "dependencies": {

@@ -8,6 +8,9 @@ debug.log
 *.js.map
 *.d.ts
 
+#MJML
+server/emails/**/*.html
+
 #Webpack
 !webpack.config.js
 
