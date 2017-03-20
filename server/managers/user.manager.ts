@@ -17,8 +17,6 @@ export class UserManager {
   }
 
   public async getUserById(id: number) {
-
-    this._emailManager.sendUserRegistrationEmail();
     
     const allUsers = await this._userRepository.getAllUsers();
 
@@ -28,6 +26,8 @@ export class UserManager {
         result = user;
       }
     });
+
+    this._emailManager.sendUserRegistrationEmail(result);
 
     return result;
   }

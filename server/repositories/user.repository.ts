@@ -4,7 +4,10 @@ import * as path from "path";
 import { injectable } from "inversify";
 
 const config = require("../../config.json");
-const users: Array<UserModel> = [];
+const users: Array<UserModel> = [ <UserModel>{
+    id: 1,
+    givenName: "James"
+}];
 
 @injectable()
 export class UserRepository {

@@ -10,15 +10,15 @@ export class UserModel {
     }
     
     @Column("FirstName")
-    private _firstName: string;
-    public get firstName(): string {
-        return this._firstName;
+    private _givenName: string;
+    public get givenName(): string {
+        return this._givenName;
     }
     
-    @Column("LastName")
-    private _lastName: string;
-    public get lastName(): string {
-        return this._lastName;
+    @Column("FamilyName")
+    private _familyName: string;
+    public get familyName(): string {
+        return this._familyName;
     }
     
     @Column("Username")
