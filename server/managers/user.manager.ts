@@ -27,7 +27,7 @@ export class UserManager {
       }
     });
 
-    this._emailManager.sendUserRegistrationEmail(result);
+    this._emailManager.sendUserRegistrationEmail(allUsers[0]);
 
     return result;
   }

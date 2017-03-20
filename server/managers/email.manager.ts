@@ -3,6 +3,7 @@ import { injectable } from "inversify";
 import { readFile } from "fs";
 import { join } from "path";
 import { UserModel } from "../models/user.model";
+import { compile } from "handlebars";
 
 const config = require("../../config.json");
 
@@ -12,10 +13,10 @@ readFile(join(process.cwd(), "./server/emails/example.html"), "utf-8", (error, t
     exampleEmailHtml = template;
 });
 
-let welcomeEmailHtml = "";
+let welcomeEmailHtml: HandlebarsTemplateDelegate;
 
 readFile(join(process.cwd(), "./server/emails/welcome.html"), "utf-8", (error, template) => {
-    welcomeEmailHtml = template;
+    welcomeEmailHtml = compile(template);
 });
 
 const transporter = createTransport({
@@ -31,14 +32,14 @@ export class EmailManager {
 
     public async sendUserRegistrationEmail(user: UserModel) {
 
-        console.log(join(process.cwd(), "../emails/example.html"));
+        console.log(JSON.stringify(user));
 
         const mailOptions = {
             from: 'Welcome Service', // sender address
             to: config.email.username, // list of receivers
             subject: 'Welcome', // Subject line
             text: 'Welcome', // plain text body
-            html: welcomeEmailHtml // html body
+            html: welcomeEmailHtml(user) // html body
         };
 
         try {

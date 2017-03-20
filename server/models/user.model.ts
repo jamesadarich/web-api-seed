@@ -9,7 +9,7 @@ export class UserModel {
         return this._id;
     }
     
-    @Column("FirstName")
+    @Column("GivenName")
     private _givenName: string;
     public get givenName(): string {
         return this._givenName;
