@@ -1,7 +1,15 @@
 import { createTransport }  from "nodemailer";
 import { injectable } from "inversify";
+import { readFile } from "fs";
+import { join } from "path";
 
 const config = require("../../config.json");
+
+let exampleEmailHtml = "";
+
+readFile(join(process.cwd(), "./server/emails/example.html"), "utf-8", (error, template) => {
+    exampleEmailHtml = template;
+});
 
 const transporter = createTransport({
     service: "gmail",
@@ -15,12 +23,15 @@ const transporter = createTransport({
 export class EmailManager {
 
     public async sendUserRegistrationEmail() {
+
+        console.log(join(process.cwd(), "../emails/example.html"));
+
         const mailOptions = {
             from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
             to: config.email.account, // list of receivers
             subject: 'Hello ✔', // Subject line
             text: 'Hello world ?', // plain text body
-            html: '<b>Hello world ?</b>' // html body
+            html: exampleEmailHtml // html body
         };
 
         try {
