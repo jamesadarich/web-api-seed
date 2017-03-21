@@ -5,7 +5,7 @@
   "main": "server/startup.js",
   "scripts": {
     "build": "tsc && npm run build-emails",
-    "build-emails": "mjml ./server/emails/welcome.mjml --output ./server/emails/welcome.html",
+    "build-emails": "mjml ./server/emails/*.mjml --output ./server/emails",
     "test": "alsatian \"./**/*.spec.js\"",
     "prestart": "npm run build",
     "start": "node server/startup.js"
