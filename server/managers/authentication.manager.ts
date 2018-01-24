@@ -9,14 +9,14 @@ export class AuthenticationManager {
 
     public constructor(@inject(TYPES.UserManager) private _userManager: UserManager) {
         passport.serializeUser(this._serializeUser);
-        passport.deserializeUser(this._serializeUser);
+        passport.deserializeUser(this._deserializeUser);
     }
 
-    private _serializeUser(user: UserModel, callback: (error: Error, user: any) => {}) {
+    private _serializeUser(user: UserModel, callback: (error: Error, user: any) => void) {
         callback(null, user);
     }
 
-    private _deserializeUser(user: UserModel, callback: (error: Error, user: any) => {}) {
+    private _deserializeUser(user: UserModel, callback: (error: Error, user: any) => void) {
         callback(null, user);
     }
     

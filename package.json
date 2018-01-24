@@ -2,13 +2,16 @@
   "name": "web-api-seed",
   "version": "1.0.0",
   "description": "seed to build a web API",
-  "main": "server/startup.js",
+  "main": "build/server/startup.js",
   "scripts": {
     "build": "tsc && npm run build-emails",
     "build-emails": "mjml ./server/emails/*.mjml --output ./server/emails",
-    "test": "alsatian \"./**/*.spec.js\"",
+    "pretest": "npm run build",
+    "test": "alsatian \"./build/test/**/*.spec.js\"",
+    "dev": "nodemon",
+    "dev-start": "ts-node --inspect=5858 server/startup.ts",
     "prestart": "npm run build",
-    "start": "node server/startup.js"
+    "start": "node build/server/startup.js"
   },
   "repository": {
     "type": "git",
@@ -35,7 +38,10 @@
     "@types/nodemailer": "^1.3.32",
     "@types/passport": "^0.3.2",
     "@types/passport-http": "^0.3.2",
+    "alsatian": "^2.1.0",
     "mjml": "^3.3.0",
+    "nodemon": "^1.14.11",
+    "ts-node": "^4.1.0",
     "typescript": "^2.1.5"
   },
   "dependencies": {

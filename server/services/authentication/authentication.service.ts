@@ -6,15 +6,16 @@ import TYPES from "../../constants/types";
 import { AuthenticationManager, UserManager } from "../../managers";
 import * as bcrypt from "bcryptjs";
 import * as passport from "passport";
+import { getConfig } from "../../configuration/get-config";
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-const config = require("../../../config.json");
+const config = getConfig();
 
 @injectable()
 @Controller("/auth")
 export class AuthenticationService {
-  
+  /*
   constructor(@inject(TYPES.UserManager) private _userManager: UserManager,
               @inject(TYPES.AuthenticationManager) private _authManager: AuthenticationManager) {
 
@@ -60,5 +61,5 @@ export class AuthenticationService {
   @Get("/google/callback", passport.authenticate('google', { failureRedirect: '/login' }))
   public googleSignInCallback(request: Request, response: Response) {
     response.redirect("http://localhost:4000/");
-  }
+  }*/
 }

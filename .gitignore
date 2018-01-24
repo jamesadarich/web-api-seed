@@ -21,8 +21,8 @@ server/emails/**/*.html
 coverage
 .nyc_output
 
-#Distribution code
-public/dist
+#Compiled code
+build
 
 #Configuration
 config.json

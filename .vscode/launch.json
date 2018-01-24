@@ -4,17 +4,15 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch via NPM",
+            "name": "Debug",
+            "cwd": "${workspaceRoot}",
             "runtimeExecutable": "npm",
-            "windows": {
-                "runtimeExecutable": "npm.cmd"
-            },
             "runtimeArgs": [
-                "start"
+                "run", "dev"
             ],
-            "timeout": 30000,
             "port": 5858,
-            "cwd": "${workspaceRoot}"
+            "restart": true,
+            "protocol": "inspector"
         }
     ]
 }

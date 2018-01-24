@@ -9,7 +9,8 @@
       "preserveConstEnums": true,
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
-      "newLine": "LF"
+      "newLine": "LF",
+      "outDir": "./build"
    },
    "buildOnSave": false,
    "compileOnSave": true,

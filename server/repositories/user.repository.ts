@@ -2,8 +2,10 @@ import { createConnection, Repository } from "typeorm";
 import { UserModel } from "../models/user.model";
 import * as path from "path";
 import { injectable } from "inversify";
+import { getConfig } from "../configuration/get-config";
 
-const config = require("../../config.json");
+const config = getConfig();
+
 const users: Array<UserModel> = [ <UserModel>{
     id: 1,
     givenName: "James"

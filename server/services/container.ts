@@ -9,7 +9,7 @@ import { UserService } from "./user.service";
 // create container
 const container = new ContainerModule((bind) => {
     // setup bindings for services
-    bind<interfaces.Controller>(TYPE.Controller).to(AuthenticationService).whenTargetNamed(TAGS.AuthenticationService);
+    // bind<interfaces.Controller>(TYPE.Controller).to(AuthenticationService).whenTargetNamed(TAGS.AuthenticationService);
     bind<interfaces.Controller>(TYPE.Controller).to(UserService).whenTargetNamed(TAGS.UserService);
 });
 

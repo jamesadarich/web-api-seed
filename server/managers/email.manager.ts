@@ -4,8 +4,9 @@ import { readFile } from "fs";
 import { join } from "path";
 import { UserModel } from "../models/user.model";
 import { compile } from "handlebars";
+import { getConfig } from "../configuration/get-config";
 
-const config = require("../../config.json");
+const config = getConfig();
 
 let exampleEmailHtml = "";
 
