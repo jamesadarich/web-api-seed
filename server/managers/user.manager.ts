@@ -20,16 +20,13 @@ export class UserManager {
     
     const allUsers = await this._userRepository.getAllUsers();
 
-    let result: UserModel;
-    allUsers.map(user => {
-      if (user.id === id) {
-        result = user;
-      }
-    });
+    const user = allUsers.filter(x => x.id === id)[0];
 
-    this._emailManager.sendUserRegistrationEmail(allUsers[0]);
+    if (!user) {
+      throw new Error("Not Found");
+    }
 
-    return result;
+    return user;
   }
 
   public async getUserByUsername(username: string) {
@@ -56,6 +53,10 @@ export class UserManager {
     (newUser as any)._firstName = user.firstName;
     (newUser as any)._lastName = user.lastName;
     (newUser as any)._passwordHash = await bcrypt.hash(user.password, salt);
-    return this._userRepository.create(newUser);
+    const createdUser = this._userRepository.create(newUser);    
+
+    this._emailManager.sendUserRegistrationEmail(createdUser);
+
+    return createdUser;
   }
 }

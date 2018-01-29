@@ -1,12 +1,10 @@
-import { createTransport }  from "nodemailer";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import { readFile } from "fs";
 import { join } from "path";
 import { UserModel } from "../models/user.model";
 import { compile } from "handlebars";
-import { getConfig } from "../configuration/get-config";
-
-const config = getConfig();
+import { EmailQueue } from "../queues/email-queue";
+import TYPES from "../constants/types";
 
 let exampleEmailHtml = "";
 
@@ -14,32 +12,36 @@ readFile(join(process.cwd(), "./server/emails/example.html"), "utf-8", (error, t
     exampleEmailHtml = template;
 });
 
-let welcomeEmailHtml: HandlebarsTemplateDelegate;
+let welcomeEmailHtml: HandlebarsTemplateDelegate<UserModel>;
 
 readFile(join(process.cwd(), "./server/emails/welcome.html"), "utf-8", (error, template) => {
     welcomeEmailHtml = compile(template);
 });
 
-const transporter = createTransport({
-    service: "gmail",
-    auth: {
-        user: config.email.username,
-        pass: config.email.password
-    }
-});
-
 @injectable()
 export class EmailManager {
 
-    public async sendUserRegistrationEmail(user: UserModel) {
+    public constructor(@inject(TYPES.EmailQueue) private _emailQueue: EmailQueue) {}
 
+    public async sendUserRegistrationEmail(user: UserModel) {
+        console.log("add email to queue");
+        // queue send example
+        this._emailQueue.add({            
+            from: "welcome@web-api-seed.net", // sender address
+            to: [ user.emailAddress ], // list of receivers
+            subject: "Welcome", // Subject line
+            text: "Welcome", // plain text body
+            html: welcomeEmailHtml(user) // html body
+        }, { visibilityTimeout: 5 });
+
+        /*
         console.log(JSON.stringify(user));
 
         const mailOptions = {
-            from: 'Welcome Service', // sender address
+            from: "Welcome Service", // sender address
             to: config.email.username, // list of receivers
-            subject: 'Welcome', // Subject line
-            text: 'Welcome', // plain text body
+            subject: "Welcome", // Subject line
+            text: "Welcome", // plain text body
             html: welcomeEmailHtml(user) // html body
         };
 
@@ -51,6 +53,7 @@ export class EmailManager {
         catch(error) {
             console.log("email failed to send", error);
         }
+        */
 
     }
 

@@ -5,9 +5,11 @@ import * as cookieParser from "cookie-parser";
 import * as expressSession from "express-session";
 import { appContainer } from "./container";
 import * as passport from "passport";
+import { workerStartup } from "./workers/startup";
 
 // start the server
 const server = new InversifyExpressServer(appContainer);
+
 server.setConfig((app) => {
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({
@@ -22,6 +24,9 @@ server.setConfig((app) => {
   app.use(passport.initialize());
   app.use(passport.session());
 });
+
+// start workers
+workerStartup();
 
 const app = server.build();
 app.listen(3000);

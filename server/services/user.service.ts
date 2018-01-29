@@ -29,8 +29,21 @@ export class UserService {
   }
 
   @Get("/:id")
-  public async getUser(request: IHttpRequest<void>) {
-    return await this._userManager.getUserById(request.params.id);
+  public async getUser(request: IHttpRequest<void>, response: Response) {
+    try {
+      return await this._userManager.getUserById(parseInt(request.params.id));
+    }
+    catch (e) {
+      // this is naughty
+      if (e.message === "Not Found") {
+        response.sendStatus(404);
+      }
+      else {
+        response.sendStatus(500);
+      }
+
+
+    }
   }
 
   @Post("/")

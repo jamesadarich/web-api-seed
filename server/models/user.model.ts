@@ -32,4 +32,10 @@ export class UserModel {
     public get passwordHash(): string {
         return this._passwordHash;
     }
+    
+    @Column("EmailAddress")
+    private _emailAddress: string;
+    public get emailAddress(): string {
+        return this._emailAddress;
+    }
 }
