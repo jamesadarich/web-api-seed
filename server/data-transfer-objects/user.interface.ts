@@ -4,4 +4,5 @@ export interface IUserDto {
     emailAddress: string;
     givenName: string;
     familyName: string;
+    createdOn: string;
 }

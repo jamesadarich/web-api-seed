@@ -8,6 +8,7 @@ export function userModelToDto(model: UserModel) {
         emailAddress: model.emailAddress,
         givenName: model.givenName,
         familyName: model.familyName,
-        activated: model.activated
+        activated: model.activated,
+        createdOn: model.createdOn.toISOString()
     } as IUserDto;
 }

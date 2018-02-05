@@ -55,6 +55,7 @@ export class UserManager {
     newUser.givenName = user.givenName;
     newUser.familyName = user.familyName;
     newUser.passwordHash = await bcrypt.hash(user.password, salt);
+    (newUser as any).createdOn = new Date();
 
     const createdUser = await this._userRepository.save(newUser);    
 

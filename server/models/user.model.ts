@@ -85,4 +85,9 @@ export class UserModel {
             this._activated = newActivated;
         }
     }
+
+    @Column("datetime", {
+        name: "CreatedOn"
+    })
+    public readonly createdOn: Date;
 }
