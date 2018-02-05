@@ -6,11 +6,8 @@ import TYPES from "../../constants/types";
 import { AuthenticationManager, UserManager } from "../../managers";
 import * as bcrypt from "bcryptjs";
 import * as passport from "passport";
-import { getConfig } from "../../configuration/get-config";
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-const config = getConfig();
 
 @injectable()
 @Controller("/auth")

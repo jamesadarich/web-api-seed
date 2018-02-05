@@ -27,8 +27,9 @@ export class AuthenticationManager {
         if (!user) {
             user = await this._userManager.createUser({ 
                 username: profile.emails[0].value,
-                firstName: profile.name.givenName,
-                lastName: profile.name.familyName,
+                emailAddress: profile.emails[0].value,
+                givenName: profile.name.givenName,
+                familyName: profile.name.familyName,
                 password: Math.random().toString() // users signing up with google won't have a password but give them something random just so no cheeky login workarounds
             });
         }

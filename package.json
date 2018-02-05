@@ -6,9 +6,10 @@
   "scripts": {
     "build": "tsc && npm run build-emails",
     "build-emails": "mjml ./server/emails/*.mjml --output ./server/emails",
+    "emulate-environment": "docker-compose --project-directory ./ -f ./emulation/docker-compose.yml up --build",
     "pretest": "npm run build",
     "test": "alsatian \"./build/test/**/*.spec.js\"",
-    "dev": "nodemon",
+    "dev": "env-cmd ./.env nodemon",
     "dev-start": "ts-node --inspect=5858 server/startup.ts",
     "prestart": "npm run build",
     "start": "node build/server/startup.js"
@@ -40,6 +41,7 @@
     "@types/passport": "^0.3.2",
     "@types/passport-http": "^0.3.2",
     "alsatian": "^2.1.0",
+    "env-cmd": "^7.0.0",
     "mjml": "^3.3.0",
     "nodemon": "^1.14.11",
     "ts-node": "^4.1.0",
@@ -55,13 +57,13 @@
     "handlebars": "^4.0.6",
     "inversify": "^3.0.0",
     "inversify-express-utils": "^3.2.0",
-    "mssql": "^3.3.0",
+    "mssql": "^4.1.0",
     "nodemailer": "^3.1.7",
     "nodemailer-mailgun-transport": "^1.3.6",
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
     "passport-http": "^0.3.0",
     "reflect-metadata": "^0.1.9",
-    "typeorm": "0.0.9"
+    "typeorm": "^0.1.12"
   }
 }

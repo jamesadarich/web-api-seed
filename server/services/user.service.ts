@@ -6,6 +6,10 @@ import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import { IHttpRequest } from "./http";
 import { Response } from "express";
 import TYPES from "../constants/types";
+import { IUserDto } from "../data-transfer-objects/user.interface";
+import { SearchQuery } from "../data-transfer-objects/search-query";
+import { DataSet } from "../data-transfer-objects/data-set";
+import { toDto } from "../transformers/to-dto";
 
 @injectable()
 @Controller("/users")
@@ -15,8 +19,10 @@ export class UserService {
               private _userManager: UserManager) { }
 
   @Get("/")
-  public async getUsers() {
-    return await this._userManager.getUsers();
+  public async getUsers(request: IHttpRequest<void>) {
+    const searchCriteria = new SearchQuery(request.query);
+
+    return await this._userManager.getUsers(searchCriteria);
   }
 
   @Get("/current")
@@ -31,7 +37,7 @@ export class UserService {
   @Get("/:id")
   public async getUser(request: IHttpRequest<void>, response: Response) {
     try {
-      return await this._userManager.getUserById(parseInt(request.params.id));
+      return toDto(await this._userManager.getUserById(parseInt(request.params.id)));
     }
     catch (e) {
       // this is naughty
@@ -41,14 +47,12 @@ export class UserService {
       else {
         response.sendStatus(500);
       }
-
-
     }
   }
 
   @Post("/")
   public async createUser(request: IHttpRequest<ICreateUserDto>) {
-    return await this._userManager.createUser(request.body);
+    return toDto(await this._userManager.createUser(request.body));
   }
 
   @Put("/:id")
@@ -59,5 +63,20 @@ export class UserService {
   @Delete("/:id")
   public deleteUser(request: IHttpRequest<void>) {
     // return this._userManager.deleteUser(request.params.id);
+  }
+
+  @Put("/:id/activated")
+  public async setUserActivated(request: IHttpRequest<boolean>, response: Response) {
+    if (request.body === false) {
+      throw new Error("Deactivating a user not implemented.");
+    }
+    
+    try {
+      await this._userManager.activateUserById(parseInt(request.params.id));
+      response.sendStatus(200);
+    }
+    catch (error) {
+
+    }
   }
 }

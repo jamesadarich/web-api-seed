@@ -3,7 +3,8 @@ const TYPES = {
     AuthenticationManager: Symbol("AuthenticationManager"),
     UserRepository: Symbol("UserRepository"),
     EmailManager: Symbol("EmailManager"),
-    EmailQueue: Symbol("EmailQueue")
+    EmailQueue: Symbol("EmailQueue"),
+    SqlConnection: Symbol("SqlConnection")
 };
 
 export default TYPES;

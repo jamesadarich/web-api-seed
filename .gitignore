@@ -25,4 +25,4 @@ coverage
 build
 
 #Configuration
-config.json
+.env

@@ -2,18 +2,7 @@ import { createQueueService, services } from "azure-storage";
 import { Message } from "./message";
 import { queueService } from "./queue-service";
 import { injectable, unmanaged } from "inversify";
-
-async function createQueueIfNotExists(queueName: string) {
-    return new Promise((resolve, reject) => {
-        queueService.createQueueIfNotExists(queueName, (error) => {
-            if (error) {
-                reject(error);
-            }
-
-            resolve();
-        });
-    });
-}
+import { createQueueIfNotExists } from "./create-queue-if-not-exists";
 
 @injectable()
 export abstract class Queue<T extends Message<U>, U> {

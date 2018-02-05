@@ -1,10 +1,8 @@
-import { createConnection, Repository } from "typeorm";
+import { Connection, Repository, SelectQueryBuilder } from "typeorm";
 import { UserModel } from "../models/user.model";
 import * as path from "path";
-import { injectable } from "inversify";
-import { getConfig } from "../configuration/get-config";
-
-const config = getConfig();
+import { injectable, inject } from "inversify";
+import TYPES from "../constants/types";
 
 const users: Array<UserModel> = [ <UserModel>{
     id: 1,
@@ -15,37 +13,18 @@ const users: Array<UserModel> = [ <UserModel>{
 @injectable()
 export class UserRepository {
 
-    public constructor() {
+    public constructor(@inject(TYPES.SqlConnection) private _sqlConnection: Connection) {
         // temporarily disable whilst ORM setup not finished
-        // this._setupRepo();
+        this._setupRepo();
     }
 
-    private async _setupRepo() {
-
-        const sqlConfig = config.databases.sql;
+    private _setupRepo() {
 
         console.log("connecting...");
         try {
-            const connection = await createConnection({
-                driver: {
-                    type: "mssql",
-                    host: sqlConfig.host,
-                    port: sqlConfig.port,
-                    username: sqlConfig.username,
-                    password: sqlConfig.password,
-                    database: sqlConfig.databaseName
-                },
-                entities: [
-                    // this was the old way but I believe we can change to using the class now...
-                    // remove when tested and confirmed
-                    // path.join(__dirname, "../models/user.model.js")
-                    UserModel
-                ],
-                autoSchemaSync: true
-            });
 
-            console.log("connected", connection);
-            this._ormRepository = connection.getRepository(UserModel);
+            console.log("connected");//, connection);
+            this._ormRepository = this._sqlConnection.getRepository(UserModel);
             console.log("repo", this._ormRepository);
         }
         catch (e) {
@@ -55,8 +34,9 @@ export class UserRepository {
 
     private _ormRepository: Repository<UserModel>;
 
-    public async getAllUsers() {
-        return users;
+    public getAllUsers() {
+        return this._ormRepository.createQueryBuilder("user");
+        // return users;
         /*
 
         while(!this._ormRepository) {
@@ -65,7 +45,11 @@ export class UserRepository {
         return await this._ormRepository.find(UserModel);*/
     }
 
-    public create(user: UserModel) {
-        return this._ormRepository.create(user);
+    public async getById(id: number) {
+        return await this._ormRepository.findOneById(id);
+    }
+
+    public save(user: UserModel) {
+        return this._ormRepository.save(user);
     }
 }

@@ -1,18 +1,15 @@
 import { EmailMessage } from "../queues/email-message";
 import { Worker } from "./worker";
 import { createTransport }  from "nodemailer";
-import { getConfig } from "../configuration/get-config";
 import { EmailManager } from "../managers/email.manager";
 import { queueService } from "../queues/queue-service";
 import { QueryBuilder } from "typeorm/query-builder/QueryBuilder";
 import * as mg from "nodemailer-mailgun-transport";
 
-const config = getConfig();
-
 const transporter = createTransport(mg({
     auth: {
-        api_key: config.email.apiKey,
-        domain: config.email.domain
+        api_key: process.env.MAILGUN_API_KEY,
+        domain: process.env.MAILGUN_DOMAIN
     }
 }
 ));

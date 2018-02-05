@@ -9,5 +9,5 @@ export interface IEmailMessageContents {
 }
 
 export class EmailMessage extends Message<IEmailMessageContents> {
-    public static readonly queueName = "web-api-seed-send-email";
+    public static readonly queueName = "webapiseed-sendemail"; // temporarily removed dashes to support azurite whilst bug unfixed
 }
