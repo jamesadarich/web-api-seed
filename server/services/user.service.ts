@@ -10,6 +10,8 @@ import { IUserDto } from "../data-transfer-objects/user.interface";
 import { SearchQuery } from "../data-transfer-objects/search-query";
 import { DataSet } from "../data-transfer-objects/data-set";
 import { toDto } from "../transformers/to-dto";
+import { writeHttpError } from "./http/write-http-error";
+import { ErrorCode } from "./http/error-code";
 
 @injectable()
 @Controller("/users")
@@ -42,11 +44,10 @@ export class UserService {
     catch (e) {
       // this is naughty
       if (e.message === "Not Found") {
-        response.sendStatus(404);
+        return writeHttpError(e, request, response, ErrorCode.DocumentNotFound);
       }
-      else {
-        response.sendStatus(500);
-      }
+      
+      throw e;
     }
   }
 
@@ -78,5 +79,16 @@ export class UserService {
     catch (error) {
 
     }
+  }
+
+  @Delete("/:id/password")
+  public deleteUserPassword(request: IHttpRequest<void>) {
+
+  }
+
+  @Put("/:id/password")
+  public updateUserPassword(request: IHttpRequest<string>) {
+    request.query.resetPasswordToken // if the user has tried to reset the password they'll also need a token
+    request.body // new password
   }
 }

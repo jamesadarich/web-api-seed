@@ -10,6 +10,10 @@ import { createConnection, Connection } from "typeorm";
 import { UserModel } from "./models/user.model";
 import { ContainerModule } from "inversify";
 import TYPES from "./constants/types";
+import * as uuid from "uuid/v4";
+import { writeHttpError } from "./services/http/write-http-error";
+import { IHttpRequest } from "./services/http/index";
+import { ErrorCode } from "./services/http/error-code";
 
 (async() => {
   
@@ -41,6 +45,10 @@ import TYPES from "./constants/types";
   const server = new InversifyExpressServer(appContainer);
 
   server.setConfig((app) => {
+    app.use((request: IHttpRequest<any>, response, next) => {
+      request.reference = uuid();
+      next();
+    });
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({
       extended: true
@@ -53,6 +61,21 @@ import TYPES from "./constants/types";
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+  });
+
+  server.setErrorConfig((app) => {
+    app.use([
+      (error, req, response, next) => {
+        if (error) {
+          writeHttpError(
+            error,
+            req as IHttpRequest<any>,
+            response,
+            ErrorCode.UnexpectedError
+          );
+        }
+      }
+    ]);
   });
 
   // start workers

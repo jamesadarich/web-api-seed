@@ -22,7 +22,7 @@ export class SearchQuery {
         //      APPLY INCLUDES AND EXCLUDES
         //      DOCUMENT SYNTAX
 
-        this.filters.forEach(filter => queryBuilder.where(`${filter.property} ${filter.operator} :value`, { value: filter.comparitorValue }));
+        this.filters.forEach(filter => queryBuilder.where(`${filter.left} ${filter.operator} :value`, { value: filter.right }));
 
         const totalResults = await queryBuilder.getCount();
 

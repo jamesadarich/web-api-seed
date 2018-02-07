@@ -32,7 +32,7 @@ export class EmailManager {
             subject: "Welcome", // Subject line
             text: "Welcome", // plain text body
             html: welcomeEmailHtml(user) // html body
-        }/* , { visibilityTimeout: 5 } */);
+        });
 
         console.log("email added to queue");
 
