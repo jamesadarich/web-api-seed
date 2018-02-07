@@ -65,11 +65,11 @@ import { ErrorCode } from "./services/http/error-code";
 
   server.setErrorConfig((app) => {
     app.use([
-      (error, req, response, next) => {
+      (error, req: IHttpRequest<any>, response, next) => {
         if (error) {
-          writeHttpError(
+          return writeHttpError(
             error,
-            req as IHttpRequest<any>,
+            req,
             response,
             ErrorCode.UnexpectedError
           );
@@ -82,6 +82,17 @@ import { ErrorCode } from "./services/http/error-code";
   await workerStartup();
 
   const app = server.build();
+
+  // 404 response
+  app.use((request: IHttpRequest<any>, response) => {    
+    return writeHttpError(
+      null,
+      request,
+      response,
+      ErrorCode.ResourceNotFound
+    )
+  })
+
   app.listen(3000);
   console.log("Server started on port 3000 :)");
 })();
