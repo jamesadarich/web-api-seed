@@ -1,14 +1,16 @@
 version: "3.2"
 services:
   azure-storage:
-    image: "arafato/azurite:1.8.6"
+    image: "arafato/azurite:2.2.2"
     ports:
       - 10000:10000
       - 10001:10001
-    volumes:
-      - type: bind
-        source: ./emulation/azure-storage/data
-        target: /opt/azurite/folder
+#    volume binding seems to be broken at the moment
+#    seems like a docker issue with AD
+#    volumes:
+#      - type: bind
+#        source: ./emulation/azure-storage/data
+#        target: /opt/azurite/folder
   database:
     build: ./emulation/database
     ports:
