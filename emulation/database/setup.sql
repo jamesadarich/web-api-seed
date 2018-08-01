@@ -1,5 +1,6 @@
 CREATE DATABASE WebApiSeed;
 GO
+
 USE WebApiSeed;
 GO
 

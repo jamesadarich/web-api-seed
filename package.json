@@ -9,7 +9,7 @@
     "emulate-environment": "docker-compose --project-directory ./ -f ./emulation/docker-compose.yml up --build",
     "pretest": "npm run build",
     "test": "alsatian \"./build/test/**/*.spec.js\"",
-    "dev": "env-cmd ./.env nodemon",
+    "dev": "npm run build-emails && env-cmd ./.env nodemon",
     "dev-start": "ts-node --inspect=5858 server/startup.ts",
     "prestart": "npm run build",
     "start": "node build/server/startup.js"
