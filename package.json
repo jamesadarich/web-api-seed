@@ -45,7 +45,7 @@
     "env-cmd": "^7.0.0",
     "mjml": "^3.3.0",
     "nodemon": "^1.14.11",
-    "ts-node": "^4.1.0",
+    "ts-node": "^7.0.1",
     "typescript": "^2.1.5"
   },
   "dependencies": {
@@ -66,6 +66,7 @@
     "passport-http": "^0.3.0",
     "reflect-metadata": "^0.1.9",
     "typeorm": "^0.1.12",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "winston": "^3.1.0"
   }
 }

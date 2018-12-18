@@ -26,3 +26,6 @@ build
 
 #Configuration
 .env
+
+#Log files
+*.log

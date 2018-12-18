@@ -19,9 +19,6 @@ export abstract class Worker<T extends Message<any>> {
     }
 
     private async _handleMessage(error: Error, results: services.queue.QueueService.QueueMessageResult[], response: ServiceResponse) {
-        // console.log("PROCESSING " + results.length + " MESSAGES\n");
-        // console.log("MESSAGE TEXT", results[0].messageText, "\n");
-        // console.log("\nTHIS", this, "\n");
 
         try {
             

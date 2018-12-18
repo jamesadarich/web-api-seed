@@ -14,8 +14,35 @@ import * as uuid from "uuid/v4";
 import { writeHttpError } from "./services/http/write-http-error";
 import { IHttpRequest } from "./services/http/index";
 import { ErrorCode } from "./services/http/error-code";
+import * as winston from "winston";
+import { isLocalDev } from "./utilities";
 
 (async() => {
+
+  const logger = winston.createLogger({
+    level: "info",
+    format: winston.format.json(),
+    transports: [
+      //
+      // - Write to all logs with level `info` and below to `combined.log` 
+      // - Write all logs error (and below) to `error.log`.
+      //
+      new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      new winston.transports.File({ filename: 'combined.log' })
+    ]
+  });
+  
+  //
+  // If we're not in production then log to the `console` with the format:
+  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+  // 
+  if (isLocalDev()) {
+    logger.add(new winston.transports.Console({
+      format: winston.format.simple()
+    }));
+  }
+
+  logger.info("Logger setup successfully");
   
   const connection = await createConnection({
     type: "mssql",
