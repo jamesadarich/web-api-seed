@@ -14,9 +14,12 @@ import * as uuid from "uuid/v4";
 import { writeHttpError } from "./services/http/write-http-error";
 import { IHttpRequest } from "./services/http/index";
 import { ErrorCode } from "./services/http/error-code";
+import { Logger } from "./utilities";
 
 (async() => {
   
+  Logger.info("Connecting to SQL");
+
   const connection = await createConnection({
     type: "mssql",
     host: process.env.MSSQL_HOST,
@@ -25,15 +28,11 @@ import { ErrorCode } from "./services/http/error-code";
     password: process.env.MSSQL_PASSWORD,
     database: process.env.MSSQL_DATABASE,
     entities: [
-        // this was the old way but I believe we can change to using the class now...
-        // remove when tested and confirmed
-        // path.join(__dirname, "../models/user.model.js")
         UserModel
     ],
     synchronize: true, // causes data loss in prod and breaks reload in dev :(
     logging: true
-  });
-  
+  });  
 
   const connectionContainer = new ContainerModule(async (bind) => {
       bind<Connection>(TYPES.SqlConnection).toConstantValue(connection);
@@ -93,6 +92,8 @@ import { ErrorCode } from "./services/http/error-code";
     )
   })
 
-  app.listen(3000);
-  console.log("Server started on port 3000 :)");
+  const port = process.env.HTTP_PORT || 5000;
+
+  app.listen(port);
+  Logger.info(`Server started on port ${port}`);
 })();

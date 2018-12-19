@@ -3,15 +3,16 @@ import { Response } from "express";
 import { ErrorCode } from "./error-code";
 import { getErrorCodeHttpStatus } from "./get-error-code-http-status";
 import { getErrorCodeMessage } from "./get-error-code-message";
+import { Logger } from "../../utilities";
 
 export function writeHttpError(error: Error, request: IHttpRequest<any>, response: Response, errorCode: ErrorCode, extras?: object) {
     const httpStatus = getErrorCodeHttpStatus(errorCode);
 
     if (httpStatus >= 500) {
-        console.error(error);
+        Logger.error(error);
     }
     else {
-        console.warn(error);
+        Logger.warn(error);
     }
 
     response.status(httpStatus);
