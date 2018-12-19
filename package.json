@@ -6,14 +6,14 @@
   "scripts": {
     "build": "tsc && npm run build-emails",
     "build-emails": "mjml ./server/emails/*.mjml --output ./server/emails",
-    "emulate-environment": "docker-compose --project-directory ./ -f ./emulation/docker-compose.yml up --build",
+    "emulate-environment": "docker-compose --project-directory ./ -f ./dev/emulation/docker-compose.yml up --build",
     "pretest": "npm run build",
     "lint": "tslint \"**/*.ts\" \"**/*.tsx\" --exclude \"**/*.d.ts\" --exclude \"node_modules/**/*.*\"",
     "lint:fix": "npm run lint -- --fix",
     "test": "npm run lint && npm run unit-tests",
     "unit-tests": "alsatian \"./build/test/**/*.spec.js\"",
-    "dev": "npm run build-emails && env-cmd ./.env nodemon",
-    "dev-start": "ts-node --inspect=5858 server/startup.ts",
+    "debug": "env-cmd ./.env nodemon --inspect dev/debug/startup",
+    "dev": "npm run build-emails && npm run debug",
     "prestart": "npm run build",
     "start": "node build/server/startup.js"
   },
@@ -48,8 +48,8 @@
     "env-cmd": "^7.0.0",
     "mjml": "^3.3.0",
     "nodemon": "^1.14.11",
-    "ts-node": "^4.1.0",
     "tslint": "^5.12.0",
+    "ts-node": "^7.0.1",
     "typescript": "^2.1.5"
   },
   "dependencies": {
@@ -70,6 +70,7 @@
     "passport-http": "^0.3.0",
     "reflect-metadata": "^0.1.9",
     "typeorm": "^0.1.12",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "winston": "^3.1.0"
   }
 }

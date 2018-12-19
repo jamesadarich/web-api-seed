@@ -6,9 +6,7 @@ import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import { IHttpRequest } from "./http";
 import { Response } from "express";
 import TYPES from "../constants/types";
-import { IUserDto } from "../data-transfer-objects/user.interface";
 import { SearchQuery } from "../data-transfer-objects/search-query";
-import { DataSet } from "../data-transfer-objects/data-set";
 import { toDto } from "../transformers/to-dto";
 import { writeHttpError } from "./http/write-http-error";
 import { ErrorCode } from "./http/error-code";
@@ -33,7 +31,7 @@ export class UserService {
       return request.user;
     }
 
-    response.sendStatus(404);
+    return writeHttpError(null, request, response, ErrorCode.DocumentNotFound);
   }
 
   @Get("/:id")
@@ -83,7 +81,6 @@ export class UserService {
 
   @Delete("/:id/password")
   public deleteUserPassword(request: IHttpRequest<void>) {
-
   }
 
   @Put("/:id/password")
