@@ -3,6 +3,7 @@ import { UserModel } from "../models/user.model";
 import * as path from "path";
 import { injectable, inject } from "inversify";
 import TYPES from "../constants/types";
+import { Logger } from "../utilities";
 
 const users: Array<UserModel> = [ <UserModel>{
     id: 1,
@@ -20,15 +21,15 @@ export class UserRepository {
 
     private _setupRepo() {
 
-        console.log("connecting...");
+        Logger.info("connecting...");
         try {
 
-            console.log("connected");//, connection);
+            Logger.info("connected");//, connection);
             this._ormRepository = this._sqlConnection.getRepository(UserModel);
-            console.log("repo", this._ormRepository);
+            Logger.info("repo", this._ormRepository);
         }
         catch (e) {
-            console.log("did not connect", e);
+            Logger.info("did not connect", e);
         }
     }
 

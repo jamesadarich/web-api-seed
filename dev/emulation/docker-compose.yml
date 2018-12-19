@@ -12,9 +12,9 @@
 #        source: ./emulation/azure-storage/data
 #        target: /opt/azurite/folder
   database:
-    build: ./emulation/database
+    build: ./dev/emulation/database
     ports:
-      - 1433:${MSSQL_PORT}
+      - ${MSSQL_PORT}:1433
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_SA_PASSWORD: ${MSSQL_PASSWORD}

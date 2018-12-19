@@ -5,7 +5,7 @@ import { EmailManager } from "../managers/email.manager";
 import { queueService } from "../queues/queue-service";
 import { QueryBuilder } from "typeorm/query-builder/QueryBuilder";
 import * as mg from "nodemailer-mailgun-transport";
-import { isLocalDev } from "../utilities";
+import { isLocalDev, Logger } from "../utilities";
 
 let transporter: Transporter;
 
@@ -37,16 +37,16 @@ export class EmailWorker extends Worker<EmailMessage> {
 
     public async process(message: EmailMessage) {
         try {
-            console.log("SENDING EMAIL:", message);
+            Logger.info("SENDING EMAIL:", message);
             await transporter.sendMail(message.contents);
             queueService.deleteMessage(EmailMessage.queueName, message.messageId, message.popReceipt, (error) => {
                 if (error) {
-                    console.log("ERROR DELETING", error);
+                    Logger.info("ERROR DELETING", error);
                 }
             });
         }
         catch (error) {
-            console.log("SEND EMAIL FAILED", error);
+            Logger.info("SEND EMAIL FAILED", error);
         }
     }
 }

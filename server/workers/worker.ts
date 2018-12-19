@@ -2,6 +2,7 @@ import { queueService } from "../queues/queue-service";
 import { Message } from "../queues/message";
 import { services, ServiceResponse } from "azure-storage";
 import { createQueueIfNotExists } from "../queues/create-queue-if-not-exists";
+import { Logger } from "../utilities";
 
 export abstract class Worker<T extends Message<any>> {
     public constructor(protected queueName: string) {
@@ -14,7 +15,7 @@ export abstract class Worker<T extends Message<any>> {
             queueService.getMessages(this.queueName, this._handleMessage.bind(this));
         }
         catch (error) {
-            console.log("Failed to set up queue:", error);
+            Logger.error("Failed to set up queue:", error);
         }
     }
 
@@ -23,7 +24,7 @@ export abstract class Worker<T extends Message<any>> {
         try {
             
             if (error) {
-                console.log("BAD MESSAGE", error);
+                Logger.info("BAD MESSAGE", error);
             }
             else if (results.length > 0) {
                 results
@@ -33,7 +34,7 @@ export abstract class Worker<T extends Message<any>> {
 
         }
         catch (e) {
-            console.log("ARGH", e, "\n");
+            Logger.info("ARGH", e, "\n");
         }
     }
 

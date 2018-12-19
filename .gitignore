@@ -7,6 +7,7 @@ debug.log
 *.js
 *.js.map
 *.d.ts
+!dev/debug/startup.js
 
 #MJML
 server/emails/**/*.html
@@ -23,9 +24,6 @@ coverage
 
 #Compiled code
 build
-
-#Configuration
-.env
 
 #Log files
 *.log

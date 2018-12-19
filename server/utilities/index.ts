@@ -1,3 +1,2 @@
-export function isLocalDev() {
-    return process.env.NODE_ENV !== "production";
-}
+export { Logger } from "./logger";
+export { isLocalDev } from "./is-local-dev";

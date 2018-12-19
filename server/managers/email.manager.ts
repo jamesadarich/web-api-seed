@@ -5,6 +5,7 @@ import { UserModel } from "../models/user.model";
 import { compile } from "handlebars";
 import { EmailQueue } from "../queues/email-queue";
 import TYPES from "../constants/types";
+import { Logger } from "../utilities";
 
 let exampleEmailHtml = "";
 
@@ -24,7 +25,7 @@ export class EmailManager {
     public constructor(@inject(TYPES.EmailQueue) private _emailQueue: EmailQueue) {}
 
     public async sendUserRegistrationEmail(user: UserModel) {
-        console.log("add email to queue");
+        Logger.info("add email to queue");
         // queue send example
         this._emailQueue.add({            
             from: "welcome@web-api-seed.net", // sender address
@@ -34,10 +35,10 @@ export class EmailManager {
             html: welcomeEmailHtml(user) // html body
         });
 
-        console.log("email added to queue");
+        Logger.info("email added to queue");
 
         /*
-        console.log(JSON.stringify(user));
+        Logger.info(JSON.stringify(user));
 
         const mailOptions = {
             from: "Welcome Service", // sender address
@@ -48,12 +49,12 @@ export class EmailManager {
         };
 
         try {
-            console.log("sending email");
+            Logger.info("sending email");
             await transporter.sendMail(mailOptions);
-            console.log("email sent");
+            Logger.info("email sent");
         }
         catch(error) {
-            console.log("email failed to send", error);
+            Logger.info("email failed to send", error);
         }
         */
 
