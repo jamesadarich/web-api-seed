@@ -1,5 +1,5 @@
-import { IHttpRequest } from "./http-request";
+import { HttpRequest } from "./http-request";
 
 export {
-    IHttpRequest
+    HttpRequest
 };

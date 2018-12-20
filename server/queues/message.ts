@@ -1,6 +1,6 @@
 import { services } from "azure-storage";
 
-export class Message<T> {    
+export class Message<T> {
     public static readonly queueName: string;
     public readonly contents: any;
     public readonly messageId: string;

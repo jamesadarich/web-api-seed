@@ -1,10 +1,10 @@
-import { injectable, inject } from "inversify";
 import { readFile } from "fs";
-import { join } from "path";
-import { UserModel } from "../models/user.model";
 import { compile } from "handlebars";
-import { EmailQueue } from "../queues/email-queue";
+import { inject, injectable } from "inversify";
+import { join } from "path";
 import TYPES from "../constants/types";
+import { UserModel } from "../models/user.model";
+import { EmailQueue } from "../queues/email-queue";
 import { Logger } from "../utilities";
 
 let exampleEmailHtml = "";
@@ -27,12 +27,12 @@ export class EmailManager {
     public async sendUserRegistrationEmail(user: UserModel) {
         Logger.info("add email to queue");
         // queue send example
-        this._emailQueue.add({            
+        this._emailQueue.add({
             from: "welcome@web-api-seed.net", // sender address
-            to: [ user.emailAddress ], // list of receivers
+            html: welcomeEmailHtml(user), // html body
             subject: "Welcome", // Subject line
             text: "Welcome", // plain text body
-            html: welcomeEmailHtml(user) // html body
+            to: [ user.emailAddress ], // list of receivers
         });
 
         Logger.info("email added to queue");

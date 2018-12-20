@@ -1,13 +1,13 @@
 import { Message } from "./message";
 
-export interface IEmailMessageContents {    
+export interface EmailMessageContents {
     from: string;
-    to: Array<string>;
+    html: string;
     subject: string;
     text: string;
-    html: string;
+    to: Array<string>;
 }
 
-export class EmailMessage extends Message<IEmailMessageContents> {
-    public static readonly queueName = "webapiseed-sendemail"; // temporarily removed dashes to support azurite whilst bug unfixed
+export class EmailMessage extends Message<EmailMessageContents> {
+    public static readonly queueName = "webapiseed-sendemail";
 }

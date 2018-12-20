@@ -1,5 +1,5 @@
 export class DataSet<T> {
-    public readonly resultsCount: Number;
+    public readonly resultsCount: number;
     public readonly startIndex: number;
     public readonly totalResults: number;
     public readonly results: Array<T>;

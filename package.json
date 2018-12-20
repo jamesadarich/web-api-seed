@@ -44,12 +44,12 @@
     "@types/passport": "^0.3.2",
     "@types/passport-http": "^0.3.2",
     "@types/uuid": "^3.4.3",
-    "alsatian": "^2.1.0",
+    "alsatian": "^2.3.0",
     "env-cmd": "^7.0.0",
     "mjml": "^3.3.0",
     "nodemon": "^1.14.11",
-    "tslint": "^5.12.0",
     "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
     "typescript": "^2.1.5"
   },
   "dependencies": {

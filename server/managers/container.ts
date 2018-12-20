@@ -1,8 +1,8 @@
 import { ContainerModule } from "inversify";
+import { EmailManager } from ".";
 import TYPES from "../constants/types";
-import { UserManager } from "./user.manager";
 import { AuthenticationManager } from "./authentication.manager";
-import { EmailManager } from "."
+import { UserManager } from "./user.manager";
 
 // create container
 const container = new ContainerModule((bind) => {

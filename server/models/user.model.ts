@@ -2,13 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("User")
 export class UserModel {
-
-    @PrimaryGeneratedColumn({
-        name: "Id"
-    })
-    public readonly id: number;
-    
-    private _givenName: string;
     @Column({
         name: "GivenName"
     })
@@ -20,8 +13,6 @@ export class UserModel {
             this._givenName = newGivenName;
         }
     }
-    
-    private _familyName: string;
     @Column({
         name: "FamilyName"
     })
@@ -33,8 +24,6 @@ export class UserModel {
             this._familyName = newFamilyName;
         }
     }
-    
-    private _username: string;
     @Column({
         name: "Username"
     })
@@ -46,8 +35,6 @@ export class UserModel {
             this._username = newUsername;
         }
     }
-    
-    private _passwordHash: string;
     @Column({
         name: "PasswordHash"
     })
@@ -59,8 +46,6 @@ export class UserModel {
             this._passwordHash = newPasswordHash;
         }
     }
-    
-    private _emailAddress: string;
     @Column({
         name: "EmailAddress"
     })
@@ -72,8 +57,6 @@ export class UserModel {
             this._emailAddress = newEmailAddress;
         }
     }
-
-    private _activated: boolean = false;
     @Column({
         name: "Activated"
     })
@@ -86,8 +69,25 @@ export class UserModel {
         }
     }
 
+    @PrimaryGeneratedColumn({
+        name: "Id"
+    })
+    public readonly id: number;
+
     @Column("datetime", {
         name: "CreatedOn"
     })
     public readonly createdOn: Date;
+
+    private _givenName: string;
+
+    private _familyName: string;
+
+    private _username: string;
+
+    private _passwordHash: string;
+
+    private _emailAddress: string;
+
+    private _activated: boolean = false;
 }

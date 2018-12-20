@@ -1,18 +1,16 @@
-import { EmailMessage } from "../queues/email-message";
-import { Worker } from "./worker";
-import { createTransport, Transporter }  from "nodemailer";
-import { EmailManager } from "../managers/email.manager";
-import { queueService } from "../queues/queue-service";
-import { QueryBuilder } from "typeorm/query-builder/QueryBuilder";
+import { createTransport, Transporter } from "nodemailer";
 import * as mg from "nodemailer-mailgun-transport";
+import { EmailMessage } from "../queues/email-message";
+import { queueService } from "../queues/queue-service";
 import { isLocalDev, Logger } from "../utilities";
+import { Worker } from "./worker";
 
 let transporter: Transporter;
 
 // TODO: simplify local setup to ensure local setup properly mimics irl setup
 if (isLocalDev()) {
     transporter = createTransport({
-        host: 'localhost',
+        host: "localhost",
         port: 25,
         secure: false,
         tls: {
