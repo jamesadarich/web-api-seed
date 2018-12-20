@@ -1,20 +1,20 @@
-import { injectable, inject } from "inversify";
-import TYPES from "../constants/types";
-import { UserModel } from "../models/user.model";
-import { ICreateUserDto } from "../data-transfer-objects/create-user.interface";
 import * as bcrypt from "bcryptjs";
-import { UserRepository } from "../repositories/user.repository";
+import { inject, injectable } from "inversify";
 import { EmailManager } from ".";
-import { SearchQuery } from "../data-transfer-objects/search-query";
+import TYPES from "../constants/types";
+import { CreateUserDto } from "../data-transfer-objects/create-user.interface";
 import { DataSet } from "../data-transfer-objects/data-set";
-import { IUserDto } from "../data-transfer-objects/user.interface";
+import { SearchQuery } from "../data-transfer-objects/search-query";
+import { UserDto } from "../data-transfer-objects/user.interface";
+import { UserModel } from "../models/user.model";
+import { UserRepository } from "../repositories/user.repository";
 import { toDto } from "../transformers/to-dto";
 
 @injectable()
 export class UserManager {
 
   public constructor(@inject(TYPES.UserRepository) private _userRepository: UserRepository,
-                    @inject(TYPES.EmailManager) private _emailManager: EmailManager) {}
+                     @inject(TYPES.EmailManager) private _emailManager: EmailManager) {}
 
   public async getUsers(searchCriteria: SearchQuery) {
     return await searchCriteria.apply(this._userRepository.getAllUsers());
@@ -38,14 +38,13 @@ export class UserManager {
 
   public async getUserByUsername(username: string) {
       const allUsers = await this._userRepository.getAllUsers();
-      
+
       const user = await allUsers.where("user.Username = :username").setParameter("username", username).getOne();
 
       return user || null;
   }
 
-
-  public async createUser(user: ICreateUserDto) {
+  public async createUser(user: CreateUserDto) {
 
     const salt = await bcrypt.genSalt(12);
 
@@ -57,7 +56,7 @@ export class UserManager {
     newUser.passwordHash = await bcrypt.hash(user.password, salt);
     (newUser as any).createdOn = new Date();
 
-    const createdUser = await this._userRepository.save(newUser);    
+    const createdUser = await this._userRepository.save(newUser);
 
     this._emailManager.sendUserRegistrationEmail(createdUser);
 

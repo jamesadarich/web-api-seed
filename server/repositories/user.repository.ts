@@ -1,39 +1,19 @@
-import { Connection, Repository, SelectQueryBuilder } from "typeorm";
-import { UserModel } from "../models/user.model";
+import { inject, injectable } from "inversify";
 import * as path from "path";
-import { injectable, inject } from "inversify";
+import { Connection, Repository, SelectQueryBuilder } from "typeorm";
 import TYPES from "../constants/types";
+import { UserModel } from "../models/user.model";
 import { Logger } from "../utilities";
-
-const users: Array<UserModel> = [ <UserModel>{
-    id: 1,
-    givenName: "James",
-    emailAddress: "jamesrichford@gmail.com"
-}];
 
 @injectable()
 export class UserRepository {
+
+    private _ormRepository: Repository<UserModel>;
 
     public constructor(@inject(TYPES.SqlConnection) private _sqlConnection: Connection) {
         // temporarily disable whilst ORM setup not finished
         this._setupRepo();
     }
-
-    private _setupRepo() {
-
-        Logger.info("connecting...");
-        try {
-
-            Logger.info("connected");//, connection);
-            this._ormRepository = this._sqlConnection.getRepository(UserModel);
-            Logger.info("repo", this._ormRepository);
-        }
-        catch (e) {
-            Logger.info("did not connect", e);
-        }
-    }
-
-    private _ormRepository: Repository<UserModel>;
 
     public getAllUsers() {
         return this._ormRepository.createQueryBuilder("user");
@@ -52,5 +32,19 @@ export class UserRepository {
 
     public save(user: UserModel) {
         return this._ormRepository.save(user);
+    }
+
+    private _setupRepo() {
+
+        Logger.info("connecting...");
+        try {
+
+            Logger.info("connected"); // , connection);
+            this._ormRepository = this._sqlConnection.getRepository(UserModel);
+            Logger.info("repo", this._ormRepository);
+        }
+        catch (e) {
+            Logger.info("did not connect", e);
+        }
     }
 }

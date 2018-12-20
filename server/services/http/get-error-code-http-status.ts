@@ -1,7 +1,7 @@
 import { ErrorCode } from "./error-code";
 
 export function getErrorCodeHttpStatus(errorCode: ErrorCode) {
-    switch(errorCode) {
+    switch (errorCode) {
         case ErrorCode.DocumentNotFound:
         case ErrorCode.ResourceNotFound:
             return 404;

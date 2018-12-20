@@ -1,13 +1,5 @@
-import { Controller, Get, Post } from "inversify-express-utils";
-import { injectable, inject } from "inversify";
-import { Request, Response } from "express";
-import { BasicStrategy } from "passport-http";
-import TYPES from "../../constants/types";
-import { AuthenticationManager, UserManager } from "../../managers";
-import * as bcrypt from "bcryptjs";
-import * as passport from "passport";
-
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+import { injectable } from "inversify";
+import { Controller } from "inversify-express-utils";
 
 @injectable()
 @Controller("/auth")
@@ -41,9 +33,9 @@ export class AuthenticationService {
     if (matchingUser) {
       const passwordMatch = await bcrypt.compare(request.body.password, matchingUser.passwordHash);
 
-      if (passwordMatch) {        
+      if (passwordMatch) {
         return "Welcome";
-      }      
+      }
     }
 
     response.status(401);

@@ -1,14 +1,14 @@
+import { UserDto } from "../data-transfer-objects/user.interface";
 import { UserModel } from "../models/user.model";
-import { IUserDto } from "../data-transfer-objects/user.interface";
 
-export function userModelToDto(model: UserModel) {    
+export function userModelToDto(model: UserModel) {
     return {
-        id: model.id,
-        username: model.username,
-        emailAddress: model.emailAddress,
-        givenName: model.givenName,
-        familyName: model.familyName,
         activated: model.activated,
-        createdOn: model.createdOn.toISOString()
-    } as IUserDto;
+        createdOn: model.createdOn.toISOString(),
+        emailAddress: model.emailAddress,
+        familyName: model.familyName,
+        givenName: model.givenName,
+        id: model.id,
+        username: model.username
+    } as UserDto;
 }

@@ -1,7 +1,7 @@
 import { SelectQueryBuilder } from "typeorm";
-import { DataSet } from "./data-set";
+import { UserDto } from "../data-transfer-objects/user.interface";
 import { toDto } from "../transformers/to-dto";
-import { IUserDto } from "../data-transfer-objects/user.interface";
+import { DataSet } from "./data-set";
 
 export class SearchQuery {
 
@@ -11,18 +11,23 @@ export class SearchQuery {
     public readonly filters: Array<Filter>;
 
     public constructor(queryString: { [key: string]: string }) {
-        this.skip = parseInt(queryString.skip) || 0;
-        this.take = parseInt(queryString.take) || 20;
+        this.skip = parseInt(queryString.skip, 10) || 0;
+        this.take = parseInt(queryString.take, 10) || 20;
         this.orderBy = queryString.orderby ? queryString.orderby.split(",").map(o => new OrderBy(o)) : [ ];
         this.filters = queryString.where ? queryString.where.split(",").map(o => new Filter(o)) : [ ];
     }
 
     public async apply<T>(queryBuilder: SelectQueryBuilder<T>) {
-        //TODO: APPLY FILTERS WITH ANDS, ORS AND BRACKETS
+        // TODO: APPLY FILTERS WITH ANDS, ORS AND BRACKETS
         //      APPLY INCLUDES AND EXCLUDES
         //      DOCUMENT SYNTAX
 
-        this.filters.forEach(filter => queryBuilder.where(`${filter.left} ${filter.operator} :value`, { value: filter.right }));
+        this.filters.forEach(filter =>
+            queryBuilder.where(
+                `${filter.left} ${filter.operator} :value`,
+                { value: filter.right }
+            )
+        );
 
         const totalResults = await queryBuilder.getCount();
 
@@ -57,11 +62,11 @@ export class Filter {
     public constructor(filterString: any) {
 
         const filterParts = filterString.split(" ");
-        
+
         if (filterParts.length !== 3) {
             throw new Error(`invalid filter: ${filterString}`);
         }
-        
+
         this.left = filterParts[0];
         this.operator = filterParts[1];
         this.right = filterParts[2];
@@ -70,7 +75,7 @@ export class Filter {
             throw new Error(`invalid filter: ${filterString}`);
         }
 
-        if (/^(<>|![<>=]|[<>=]|[<>]=)$/.test(this.operator) 
+        if (/^(<>|![<>=]|[<>=]|[<>]=)$/.test(this.operator)
         && /^(NOT )?(ALL|AND|ANY|BETWEEN|EXISTS|IN|LIKE|OR|IS NULL|UNIQUE)$/.test(this.operator) === false) {
             throw new Error(`invalid filter: ${filterString}`);
         }
@@ -89,4 +94,3 @@ export class Filter {
     }
     */
 }
-

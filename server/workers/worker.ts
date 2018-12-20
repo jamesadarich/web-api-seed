@@ -1,13 +1,15 @@
-import { queueService } from "../queues/queue-service";
-import { Message } from "../queues/message";
-import { services, ServiceResponse } from "azure-storage";
+import { ServiceResponse, services } from "azure-storage";
 import { createQueueIfNotExists } from "../queues/create-queue-if-not-exists";
+import { Message } from "../queues/message";
+import { queueService } from "../queues/queue-service";
 import { Logger } from "../utilities";
 
 export abstract class Worker<T extends Message<any>> {
     public constructor(protected queueName: string) {
         this._setupQueue();
     }
+
+    public abstract async process(message: T): Promise<void>;
 
     private async _setupQueue() {
         try {
@@ -19,10 +21,14 @@ export abstract class Worker<T extends Message<any>> {
         }
     }
 
-    private async _handleMessage(error: Error, results: services.queue.QueueService.QueueMessageResult[], response: ServiceResponse) {
+    private async _handleMessage(
+                    error: Error,
+                    results: Array<services.queue.QueueService.QueueMessageResult>,
+                    response: ServiceResponse
+                  ) {
 
         try {
-            
+
             if (error) {
                 Logger.info("BAD MESSAGE", error);
             }
@@ -37,6 +43,4 @@ export abstract class Worker<T extends Message<any>> {
             Logger.info("ARGH", e, "\n");
         }
     }
-
-    public abstract async process(message: T): Promise<void>;
 }
