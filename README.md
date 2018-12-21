@@ -1,5 +1,7 @@
 # web-api-seed
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jamesadarich/web-api-seed.svg)](https://greenkeeper.io/)
+
 A template to build a web API
 
 ## Local Dev Installation
