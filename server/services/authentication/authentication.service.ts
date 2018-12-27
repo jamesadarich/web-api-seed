@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import { Controller } from "inversify-express-utils";
+import { controller } from "inversify-express-utils";
 
 @injectable()
-@Controller("/auth")
+@controller("/auth")
 export class AuthenticationService {
   /*
   constructor(@inject(TYPES.UserManager) private _userManager: UserManager,

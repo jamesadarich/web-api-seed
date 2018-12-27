@@ -27,7 +27,7 @@ export class UserRepository {
     }
 
     public async getById(id: number) {
-        return await this._ormRepository.findOneById(id);
+        return await this._ormRepository.findOne(id);
     }
 
     public save(user: UserModel) {

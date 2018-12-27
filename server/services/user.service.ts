@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { inject, injectable } from "inversify";
-import { Controller, Delete, Get, Post, Put } from "inversify-express-utils";
+import { controller, httpDelete, httpGet, httpPost, httpPut } from "inversify-express-utils";
 import TYPES from "../constants/types";
 import { CreateUserDto } from "../data-transfer-objects/create-user.interface";
 import { SearchQuery } from "../data-transfer-objects/search-query";
@@ -13,20 +13,20 @@ import { ErrorCode } from "./http/error-code";
 import { writeHttpError } from "./http/write-http-error";
 
 @injectable()
-@Controller("/users")
+@controller("/users")
 export class UserService {
 
   constructor(@inject(TYPES.UserManager)
               private _userManager: UserManager) { }
 
-  @Get("/")
+  @httpGet("/")
   public async getUsers(request: HttpRequest<void>) {
     const searchCriteria = new SearchQuery(request.query);
 
     return await this._userManager.getUsers(searchCriteria);
   }
 
-  @Get("/current")
+  @httpGet("/current")
   public getCurrentUser(request: HttpRequest<void>, response: Response) {
     if (request.user) {
       return request.user;
@@ -35,7 +35,7 @@ export class UserService {
     return writeHttpError(null, request, response, ErrorCode.DocumentNotFound);
   }
 
-  @Get("/:id")
+  @httpGet("/:id")
   public async getUser(request: HttpRequest<void>, response: Response) {
     try {
       return toDto(await this._userManager.getUserById(parseInt(request.params.id, 10)));
@@ -50,22 +50,22 @@ export class UserService {
     }
   }
 
-  @Post("/")
+  @httpPost("/")
   public async createUser(request: HttpRequest<CreateUserDto>) {
     return toDto(await this._userManager.createUser(request.body));
   }
 
-  @Put("/:id")
+  @httpPut("/:id")
   public updateUser(request: HttpRequest<UserModel>) {
     // return this._userManager.updateUser(request.params.id, request.body);
   }
 
-  @Delete("/:id")
+  @httpDelete("/:id")
   public deleteUser(request: HttpRequest<void>) {
     // return this._userManager.deleteUser(request.params.id);
   }
 
-  @Put("/:id/activated")
+  @httpPut("/:id/activated")
   public async setUserActivated(request: HttpRequest<boolean>, response: Response) {
     if (request.body === false) {
       throw new Error("Deactivating a user not implemented.");
@@ -83,12 +83,12 @@ export class UserService {
     }
   }
 
-  @Delete("/:id/password")
+  @httpDelete("/:id/password")
   public deleteUserPassword(request: HttpRequest<void>) {
     throw new Error("not implemented");
   }
 
-  @Put("/:id/password")
+  @httpPut("/:id/password")
   public updateUserPassword(request: HttpRequest<string>) {
     // request.query.resetPasswordToken; // if the user has tried to reset the password they'll also need a token
     // request.body; // new password
