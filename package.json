@@ -45,7 +45,7 @@
     "@types/passport-http": "^0.3.7",
     "@types/uuid": "^3.4.3",
     "alsatian": "^2.3.0",
-    "env-cmd": "^8.0.2",
+    "env-cmd": "^9.0.2",
     "mjml": "^4.2.1",
     "nodemon": "^1.14.11",
     "ts-node": "^7.0.1",
