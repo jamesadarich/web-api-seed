@@ -7,12 +7,6 @@ import { UserModel } from "../models/user.model";
 import { EmailQueue } from "../queues/email-queue";
 import { Logger } from "../utilities";
 
-let exampleEmailHtml = "";
-
-readFile(join(process.cwd(), "./server/emails/example.html"), "utf-8", (error, template) => {
-    exampleEmailHtml = template;
-});
-
 let welcomeEmailHtml: HandlebarsTemplateDelegate<UserModel>;
 
 readFile(join(process.cwd(), "./server/emails/welcome.html"), "utf-8", (error, template) => {

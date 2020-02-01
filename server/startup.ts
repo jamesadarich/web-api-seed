@@ -21,6 +21,20 @@ import { workerStartup } from "./workers/startup";
 
   Logger.info("Connecting to SQL");
 
+  const MSSQL_PORT_STRING = process.env.MSSQL_PORT;
+
+  if (MSSQL_PORT_STRING === undefined || MSSQL_PORT_STRING === "") {
+    Logger.error("Environment variable MSSQL_PORT must be set.");
+    throw new Error("Environment variable MSSQL_PORT was not set.");
+  }
+
+  const MSSQL_PORT = parseInt(MSSQL_PORT_STRING, 10);
+
+  if (isFinite(MSSQL_PORT) === false && MSSQL_PORT < 1) {
+    Logger.error(`MSSQL_PORT value "${MSSQL_PORT}" is not valid.`);
+    throw new Error(`MSSQL_PORT value "${MSSQL_PORT}" is not valid.`);
+  }
+
   const connection = await createConnection({
     database: process.env.MSSQL_DATABASE,
     entities: [
@@ -29,7 +43,7 @@ import { workerStartup } from "./workers/startup";
     host: process.env.MSSQL_HOST,
     logging: true,
     password: process.env.MSSQL_PASSWORD,
-    port: parseInt(process.env.MSSQL_PORT, 10),
+    port: MSSQL_PORT,
     synchronize: true, // causes data loss in prod and breaks reload in dev :(
     type: "mssql",
     username: process.env.MSSQL_USERNAME
@@ -53,7 +67,7 @@ import { workerStartup } from "./workers/startup";
   // 404 response
   server.use((request: HttpRequest<any>, response) => {
     return writeHttpError(
-      null,
+      new Error(`resource ${request.method} ${request.url} not found.`),
       request,
       response,
       ErrorCode.ResourceNotFound

@@ -1,4 +1,4 @@
-import { createQueueService, services } from "azure-storage";
+import { services } from "azure-storage";
 import { injectable, unmanaged } from "inversify";
 import { Logger } from "../utilities";
 import { createQueueIfNotExists } from "./create-queue-if-not-exists";
@@ -15,11 +15,11 @@ export abstract class Queue<T extends Message<U>, U> {
         this._setupQueue();
     }
 
-    public add(message: U, options?: services.queue.QueueService.CreateMessageRequestOptions) {
+    public add(message: U, options: services.queue.QueueService.CreateMessageRequestOptions = {}) {
 
         queueService.createMessage(this.queueName, JSON.stringify(message), options, (error, result, response) => {
             if (error) {
-                return Logger.info(error);
+                Logger.info(error);
             }
         });
     }

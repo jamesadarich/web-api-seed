@@ -1,5 +1,6 @@
 {
-   "compilerOptions": {
+    "extends": "@justaddjam/tsconfig/node",
+    "compilerOptions": {
       "target": "es6",
       "module": "commonjs",
       "moduleResolution": "node",
@@ -11,14 +12,12 @@
       "emitDecoratorMetadata": true,
       "newLine": "LF",
       "outDir": "./build"
-   },
-   "buildOnSave": false,
-   "compileOnSave": true,
-   "exclude": [
-      "./**/*.d.ts",
-      "./node_modules"
-   ],
-   "include": [
-      "./**/*.ts"
-   ]
+    },
+    "exclude": [
+        "./**/*.d.ts",
+        "./node_modules"
+    ],
+    "include": [
+        "./**/*.ts"
+    ]
 }

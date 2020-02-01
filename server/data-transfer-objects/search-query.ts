@@ -1,5 +1,4 @@
 import { SelectQueryBuilder } from "typeorm";
-import { UserDto } from "../data-transfer-objects/user.interface";
 import { toDto } from "../transformers/to-dto";
 import { DataSet } from "./data-set";
 

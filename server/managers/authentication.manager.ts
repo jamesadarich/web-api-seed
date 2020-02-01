@@ -31,11 +31,11 @@ export class AuthenticationManager {
         return user;
     }
 
-    private _serializeUser(user: UserModel, callback: (error: Error, user: any) => void) {
+    private _serializeUser(user: UserModel, callback: (error: Error | null, user: UserModel) => void) {
         callback(null, user);
     }
 
-    private _deserializeUser(user: UserModel, callback: (error: Error, user: any) => void) {
+    private _deserializeUser(user: UserModel, callback: (error: Error | null, user: UserModel) => void) {
         callback(null, user);
     }
 }

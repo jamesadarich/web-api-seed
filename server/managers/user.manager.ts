@@ -3,12 +3,9 @@ import { inject, injectable } from "inversify";
 import { EmailManager } from ".";
 import TYPES from "../constants/types";
 import { CreateUserDto } from "../data-transfer-objects/create-user.interface";
-import { DataSet } from "../data-transfer-objects/data-set";
 import { SearchQuery } from "../data-transfer-objects/search-query";
-import { UserDto } from "../data-transfer-objects/user.interface";
 import { UserModel } from "../models/user.model";
 import { UserRepository } from "../repositories/user.repository";
-import { toDto } from "../transformers/to-dto";
 
 @injectable()
 export class UserManager {
